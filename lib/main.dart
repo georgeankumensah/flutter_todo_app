@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:to_do/pages/add.dart';
+import 'package:to_do/pages/completed.dart';
+
+//pages
+import './pages/home.dart';
+import "./pages/splash.dart";
 
 void main() {
-  runApp(const MainApp());
+  runApp(Splash(onInitializationComplete: () {
+    runApp(const ProviderScope(child: MainApp()));
+  }));
 }
 
 class MainApp extends StatelessWidget {
@@ -10,18 +19,13 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Center(child: Text("To Do")),
-        ),
-        body: const Center(
-          child: Text('Hello World!'),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: const Icon(Icons.add),
-        ),
-      ),
+      initialRoute: "home",
+      debugShowCheckedModeBanner: false,
+      routes: {
+        "home": (context) => const HomePage(),
+        "add": (context) => const AddTodo(),
+        "completed": (context) => const CompletedTodosPage(),
+      },
     );
   }
 }
